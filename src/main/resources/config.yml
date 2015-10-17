@@ -1,0 +1,19 @@
+# This is a template config file
+# define your parameter and its value like:
+Messages:
+  ErrorMsg : "&c[God] : Some error occured."
+
+HelpMessages:
+  banner:
+    msg: "=== &e[&aGodMode Commands List (%version%)&e] &r==="  
+  help:
+    msg: "&a/god help : displays this help menu."
+  reload:
+    msg: "&a/god reload : reloads config file."
+    permission: "godmode.reload"
+  debug:
+    msg: "&a/god debug <true|false> : turn on / off the debug mode."
+    permission: "godmode.debug"
+  god:
+    msg: "&a/god : toggle the debug mode."
+    permission: "godmode.use"

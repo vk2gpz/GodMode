@@ -1,0 +1,21 @@
+name: GodMode
+main: com.vk2gpz.godmode.GodMode
+version: ${project.version}
+description: Simple GodMode
+author: vk2gpz
+
+commands:
+  god:
+    description: A god command
+    usage: /god
+    permission: godmode.use
+    permission-message: You do not have /<permission>
+    usage: "Syntax error! Perhaps you meant /<command> ?"
+
+permissions:
+  godmode.*:
+    children:
+      gamemode.use: true
+  godmode.use:
+    default: op
+    
