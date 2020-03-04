@@ -7,7 +7,7 @@ plugins {
 defaultTasks 'clean', 'jar' //, 'publish'
 
 group 'com.vk2gpz.godmode'
-version '1.0.0'
+version '1.0.2'
 
 ext {
     spigot_version = '1.15.2'
