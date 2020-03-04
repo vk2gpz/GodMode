@@ -1,0 +1,68 @@
+plugins {
+    id "com.github.unafraid.gradle.git-repo-plugin" version "2.0.4.1"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id 'java'
+    id 'maven-publish'
+}
+
+apply plugin: "com.github.unafraid.gradle.git-repo-plugin"
+
+// use publishToGithub to push it to maven-private
+defaultTasks 'clean', 'jar' //, 'publish'
+
+group 'com.vk2gpz.godmode'
+version '1.0.0'
+
+ext {
+    spigot_version = '1.15.2'
+    spigotapi_version = spigot_version + '-R0.1-SNAPSHOT'
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/groups/public/" } // spigot repo
+    github("vk2gpz", "maven-private", "origin", "master", "repo")
+    github("teamvk", "maven-repository", "origin", "master", "release")
+}
+
+dependencies {
+    compile group: 'org.spigotmc', name: 'spigot-api', version: spigotapi_version
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+// Replace text in plugin.yml
+processResources {
+    with copySpec {
+        from sourceSets.main.resources.srcDirs
+        filter { String line -> line.replace('${project.version}', project.version)}
+    }
+}
+
+/********** public ***********/
+gitPublishConfig{
+    org = "vk2gpz"
+    repo = "maven-private"
+    upstream = "origin"
+    branch = "master"
+}
+
+publishing {
+    repositories {
+        maven {
+            url "file://${gitPublishConfig.home}/${gitPublishConfig.org}/${gitPublishConfig.repo}/repo"
+        }
+    }
+
+    publications {
+        jarFile(MavenPublication) {
+            groupId group
+            artifactId project.name
+            version project.version
+            artifact file(shadowJar.archiveFile);
+        }
+    }
+}
